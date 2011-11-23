@@ -1,11 +1,10 @@
 
 function save()
 {
-	var textValue = $("#text").val();
+	localStorage.textValue = $("#text").val();
 }
 
 function load()
 {
-	var textValue = "";
-	$("#text").val(textValue);
+	$("#text").val(localStorage.textValue);
 }
