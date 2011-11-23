@@ -6,7 +6,6 @@
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
-	<script type="text/javascript" src="scripts.js"></script>
 </head> 
 <body> 
 
@@ -36,6 +35,38 @@
 	</div><!-- /content -->
 
 </div><!-- /page -->
+
+<script>
+
+function save()
+{
+	localStorage.textValue = $("#text").val();
+}
+
+function load()
+{
+	$("#text").val(localStorage.textValue);
+}
+
+function readGeolocation()
+{
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(onGeolocationSuccess, onGeolocationError);
+	}
+}
+
+function onGeolocationSuccess(position)
+{
+	$("#latitude").val(position.coords.latitude);
+	$("#longitude").val(position.coords.longitude);
+}
+
+function onGeolocationError(message)
+{
+	alert(message);
+}
+
+</script>
 
 </body>
 </html>
