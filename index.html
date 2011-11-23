@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html> 
 	<head> 
-	<title>My Page</title> 
+	<title>Storage and Geolocation sample</title> 
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
@@ -25,6 +25,13 @@
 		<button type="button" onclick="save()">Save</button>
 		
 		<button type="button" onclick="load()">Load</button>
+		
+		<form>
+			<label for="latitude">Latitude:</label> <input type="text" id="latitude"/>
+			<label for="longitude">Longitude:</label> <input type="text" id="longitude"/>
+		</form>
+		
+		<button type="button" onclick="readGeolocation()">Get Geolocation</button>
 		
 	</div><!-- /content -->
 
