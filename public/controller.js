@@ -1,6 +1,25 @@
 
 var genericObjectModelDao = new Dao("genericObjectModel");
 
+$(function() {
+	appendLabel("Id:", "id");
+	appendTextField("id");
+	appendLabel("Description:", "description");
+	appendTextField("description");
+});
+
+function appendLabel(label, id) {
+	appendComponentToForm($("<label></label>").attr("for", id).text(label));
+}
+
+function appendTextField(id) {
+	appendComponentToForm($("<input></input>").attr("type", "text").attr("id", id));
+}
+
+function appendComponentToForm(component) {
+	$("#form").append(component);
+}
+
 function createModel() {
 	return new GenericObjectModel($("#id").val(), $("#description").val());
 }
