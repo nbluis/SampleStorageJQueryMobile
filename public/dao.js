@@ -33,7 +33,7 @@ function Dao(entityName) {
 		this._saveJson(json);
 	}
 	
-	this.del = function(record) {
+	this.delete = function(record) {
 		var json = this._loadJson();
 		
 		for (i=0; i<json.records.length; i++) {
