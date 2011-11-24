@@ -1,58 +1,32 @@
 
+var genericObjectModelDao = new Dao("genericObjectModel");
+
 function create()
 {
 	var jsonObject = {"id": $("#id").val(), "description": $("#description").val()};
-	
-	var jsonAllObjects = load();
-	
-	if (jsonAllObjects)
-	{
-		jsonAllObjects.records[jsonAllObjects.records.length] = jsonObject;
-	}
-	else
-	{
-		jsonAllObjects = {"records": [jsonObject]};
-	}
-	
-	save(jsonAllObjects);
+	genericObjectModelDao.create(jsonObject);
 }
 
 function retrieveById()
 {
 	var id = $("#id").val();
+
+	var retrievedRecord = genericObjectModelDao.retrieveById(id);
 	
-	var jsonAllObjects = load();
-	
-	if (jsonAllObjects)
+	if (retrievedRecord == null)
 	{
-		var found = false;
-		
-		for (i=0; i<jsonAllObjects.records.length; i++)
-		{
-			jsonObject = jsonAllObjects.records[i];
-			
-			if (jsonObject.id == id)
-			{
-				fillFields(jsonObject);
-				found = true;
-				break;
-			}
-		}
-		
-		if (!found)
-		{
-			clearFieldsButId();
-		}
+		clearFieldsButId();
+		alert("Not found!");
 	}
 	else
 	{
-		clearFieldsButId();
+		fillFields(retrievedRecord);
 	}
 }
 
 function deleteAll()
 {
-	localStorage.clear();
+	genericObjectModelDao.deleteAll();
 	clearFields();
 }
 
@@ -71,25 +45,6 @@ function clearFields()
 function clearFieldsButId()
 {
 	$("#description").val("");
-}
-
-function save(json)
-{
-	localStorage.genericModelObjects = JSON.stringify(json);
-}
-
-function load()
-{
-	var stringJson = localStorage.genericModelObjects;
-	
-	if (stringJson)
-	{
-		return JSON.parse(stringJson);
-	}
-	else
-	{
-		return null;
-	}
 }
 
 function readGeolocation()
