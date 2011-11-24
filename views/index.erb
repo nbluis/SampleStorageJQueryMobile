@@ -1,11 +1,13 @@
 <!DOCTYPE html> 
 <html> 
-	<head> 
+
+<head> 
 	<title>Storage and Geolocation sample</title> 
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
+	<script type="text/javascript" src="scripts.js"></script>
 </head> 
 <body> 
 
@@ -17,14 +19,17 @@
 
 	<div data-role="content">	
 
+		<h3>Generic model object</h3>
 		<form>
-			<label for="text">Text:</label> <input type="text" id="text"/>
+			<label for="id">Id:</label> <input type="text" id="id"/>
+			<label for="description">Description:</label> <input type="text" id="description"/>
 		</form>
 		
-		<button type="button" onclick="save()">Save</button>
+		<button type="button" onclick="create()">Create</button>
+		<button type="button" onclick="retrieveById()">Retrieve by ID</button>
+		<button type="button" onclick="deleteAll()">Delete all</button>
 		
-		<button type="button" onclick="load()">Load</button>
-		
+		<h3>Geolocation</h3>
 		<form>
 			<label for="latitude">Latitude:</label> <input type="text" id="latitude"/>
 			<label for="longitude">Longitude:</label> <input type="text" id="longitude"/>
@@ -35,38 +40,6 @@
 	</div><!-- /content -->
 
 </div><!-- /page -->
-
-<script>
-
-function save()
-{
-	localStorage.textValue = $("#text").val();
-}
-
-function load()
-{
-	$("#text").val(localStorage.textValue);
-}
-
-function readGeolocation()
-{
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(onGeolocationSuccess, onGeolocationError);
-	}
-}
-
-function onGeolocationSuccess(position)
-{
-	$("#latitude").val(position.coords.latitude);
-	$("#longitude").val(position.coords.longitude);
-}
-
-function onGeolocationError(message)
-{
-	alert(message);
-}
-
-</script>
 
 </body>
 </html>
