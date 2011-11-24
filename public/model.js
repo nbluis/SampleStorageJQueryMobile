@@ -1,5 +1,8 @@
 
-function GenericObjectModel(id, description) {
-	this.id = id;
-	this.description = description;
+function GenericObjectModel() {
+	this.id = 0;
+	this.description = "";
+	this.checked = false;
+	this.option = null;
+	this.flags = [];
 }
