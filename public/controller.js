@@ -1,8 +1,12 @@
 
 var genericObjectModelDao = new Dao("genericObjectModel");
 
+function createJson() {
+	return {"id": $("#id").val(), "description": $("#description").val()};
+}
+
 function create() {
-	var jsonObject = {"id": $("#id").val(), "description": $("#description").val()};
+	var jsonObject = createJson();
 	genericObjectModelDao.create(jsonObject);
 	clearFields();
 }
@@ -33,6 +37,16 @@ function list() {
 	}
 }
 
+function updateById() {
+	genericObjectModelDao.update(createJson());
+}
+
+function deleteById() {
+	genericObjectModelDao.del(createJson());
+	clearFields();
+	hideRecordsList();
+}
+
 function deleteAll() {
 	genericObjectModelDao.deleteAll();
 	clearFields();
@@ -54,7 +68,7 @@ function clearFieldsButId() {
 }
 
 function showRecordsList(html) {
-	$("#list").html(recordsHtml);
+	$("#list").html(html);
 	$("#listDiv").show();
 }
 

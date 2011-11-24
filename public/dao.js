@@ -9,21 +9,41 @@ function Dao(entityName) {
 	
 	this.retrieveById = function(id) {
 		var records = this.retrieveAll();
-		
 		for (i=0; i<records.length; i++) {
 			var record = records[i];
-			
 			if (record.id == id) {
 				return record;
 			}
 		}
-		
 		return null;
 	};
 	
 	this.retrieveAll = function() {
 		return this._loadJson().records;
 	};
+	
+	this.update = function(record) {
+		var json = this._loadJson();
+		
+		for (i=0; i<json.records.length; i++) {
+			if (json.records[i].id == record.id) {
+				json.records[i] = record;
+			}
+		}
+		this._saveJson(json);
+	}
+	
+	this.del = function(record) {
+		var json = this._loadJson();
+		
+		for (i=0; i<json.records.length; i++) {
+			if (json.records[i].id == record.id) {
+				json.records.splice(i, 1);
+				i--;
+			}
+		}
+		this._saveJson(json);
+	}
 
 	this.deleteAll = function() {
 		localStorage.removeItem(entityName);
