@@ -1,12 +1,16 @@
 
 var genericObjectModelDao = new Dao("genericObjectModel");
 
+var uniqueListOptions = ["option 1", "option 2", "option 3"];
+
+var multipleListOptions = ["flag 1", "flag 2", "flag 3"];
+
 $(function() {
 	appendNumericField("Id:", "id");
 	appendTextField("Description:", "description");
 	appendBooleanField("Checked", "checked");
-	appendUniqueList("Option:", "option", ["option 1", "option 2", "option 3"]);
-	appendMultipleList("Flags:", "flags", ["flag 1", "flag 2", "flag 3"]);
+	appendUniqueList("Option:", "option", uniqueListOptions);
+	appendMultipleList("Flags:", "flags", multipleListOptions);
 });
 
 function appendComponentToForm(component) {
@@ -98,7 +102,8 @@ function list() {
 	var records = genericObjectModelDao.retrieveAll();
 	if (records.length > 0) {
 		for (i=0; i<records.length; i++) {
-			recordsHtml += records[i].description + "(" + records[i].id + ")<br/>";
+			jsonString = JSON.stringify(records[i]);
+			recordsHtml += jsonString + "<br/>";
 		}
 		showRecordsList(recordsHtml);
 	} else {
@@ -140,6 +145,23 @@ function createModel() {
 	model.id = $("#id").val();
 	model.description = $("#description").val();
 	model.checked = $("#checked").attr("checked");
+	model.option = null;
+	model.flags = [];
+	
+	for (i=0; i<uniqueListOptions.length; i++) {
+		var itemId = getItemId("option", i);
+		if ($("#"+itemId).attr("checked")) {
+			model.option = i;
+			break;
+		}
+	}
+	
+	for (i=0; i<multipleListOptions.length; i++) {
+		var itemId = getItemId("flags", i);
+		if ($("#"+itemId).attr("checked")) {
+			model.flags.push(i);
+		}
+	}
 	return model;
 }
 
@@ -147,9 +169,20 @@ function createModel() {
 Fill the screen components with the values of the GenericObjectModel object.
 */
 function fillFields(genericModelObject) {
+	clearListFields();
+	
 	$("#id").val(genericModelObject.id);
 	$("#description").val(genericModelObject.description);
 	$("#checked").attr("checked", genericModelObject.checked);
+	
+	if (genericModelObject.option != null) {
+		var itemId = getItemId("option", genericModelObject.option);
+		$("#"+itemId).attr("checked", true);
+	}
+	for (i=0; i<genericModelObject.flags.length; i++) {
+		var itemId = getItemId("flags", genericModelObject.flags[i]);
+		$("#"+itemId).attr("checked", true);
+	}
 }
 
 /**
@@ -165,6 +198,22 @@ Clear the values of all components of the screen but the ID component.
 */
 function clearFieldsButId() {
 	$("#description").val("");
+	$("#checked").attr("checked", false);
+	clearListFields();
+}
+
+/**
+Clear the selected values of the list components of the screen.
+*/
+function clearListFields() {
+	for (i=0; i<uniqueListOptions.length; i++) {
+		var itemId = getItemId("option", i);
+		$("#"+itemId).attr("checked", false);
+	}
+	for (i=0; i<multipleListOptions.length; i++) {
+		var itemId = getItemId("flags", i);
+		$("#"+itemId).attr("checked", false);
+	}
 }
 
 /**
@@ -183,6 +232,9 @@ function hideRecordsList() {
 	$("#listDiv").hide();
 }
 
+/**
+Request the geolocation to show in the screen components.
+*/
 function readGeolocation() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(onGeolocationSuccess, onGeolocationError);
