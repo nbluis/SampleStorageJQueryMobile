@@ -31,7 +31,7 @@ function Dao(entityName) {
 			}
 		}
 		this._saveJson(json);
-	}
+	};
 	
 	this.delete = function(record) {
 		var json = this._loadJson();
@@ -43,7 +43,7 @@ function Dao(entityName) {
 			}
 		}
 		this._saveJson(json);
-	}
+	};
 
 	this.deleteAll = function() {
 		localStorage.removeItem(entityName);

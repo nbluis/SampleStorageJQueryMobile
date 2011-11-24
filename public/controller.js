@@ -2,22 +2,40 @@
 var genericObjectModelDao = new Dao("genericObjectModel");
 
 $(function() {
-	appendLabel("Id:", "id");
-	appendTextField("id");
-	appendLabel("Description:", "description");
-	appendTextField("description");
+	appendNumericField("Id:", "id");
+	appendTextField("Description:", "description");
 });
-
-function appendLabel(label, id) {
-	appendComponentToForm($("<label></label>").attr("for", id).text(label));
-}
-
-function appendTextField(id) {
-	appendComponentToForm($("<input></input>").attr("type", "text").attr("id", id));
-}
 
 function appendComponentToForm(component) {
 	$("#form").append(component);
+}
+
+function appendLabelAndComponent(label, component) {
+	appendComponentToForm($("<label></label>").attr("for", component.attr("id")).text(label));
+	appendComponentToForm(component);
+}
+
+function appendNumericField(label, id) {
+	appendLabelAndComponent(label, $("<input></input>").attr("type", "number").attr("id", id));
+}
+
+function appendTextField(label, id) {
+	appendLabelAndComponent(label, $("<input></input>").attr("type", "text").attr("id", id));
+}
+
+function appendDateField(label, id) {
+}
+
+function appendTimeField() {
+}
+
+function appendBooleanField() {
+}
+
+function appendUniqueList() {
+}
+
+function appendMultipleList() {
 }
 
 function createModel() {
