@@ -78,7 +78,7 @@ function updateById() {
 }
 
 function deleteById() {
-	genericObjectModelDao.delete(createModel());
+	genericObjectModelDao.del(createModel());
 	clearFields();
 	hideRecordsList();
 }
