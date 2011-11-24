@@ -1,66 +1,79 @@
 
 var genericObjectModelDao = new Dao("genericObjectModel");
 
-function create()
-{
+function create() {
 	var jsonObject = {"id": $("#id").val(), "description": $("#description").val()};
 	genericObjectModelDao.create(jsonObject);
+	clearFields();
 }
 
-function retrieveById()
-{
+function retrieveById() {
 	var id = $("#id").val();
 
 	var retrievedRecord = genericObjectModelDao.retrieveById(id);
 	
-	if (retrievedRecord == null)
-	{
+	if (retrievedRecord == null) {
 		clearFieldsButId();
 		alert("Not found!");
-	}
-	else
-	{
+	} else {
 		fillFields(retrievedRecord);
 	}
 }
 
-function deleteAll()
-{
-	genericObjectModelDao.deleteAll();
-	clearFields();
+function list() {
+	var recordsHtml = "";
+	var records = genericObjectModelDao.retrieveAll();
+	if (records.length > 0) {
+		for (i=0; i<records.length; i++) {
+			recordsHtml += records[i].description + "(" + records[i].id + ")<br/>";
+		}
+		showRecordsList(recordsHtml);
+	} else {
+		hideRecordsList();
+	}
 }
 
-function fillFields(genericModelObject)
-{
+function deleteAll() {
+	genericObjectModelDao.deleteAll();
+	clearFields();
+	hideRecordsList();
+}
+
+function fillFields(genericModelObject) {
 	$("#id").val(genericModelObject.id);
 	$("#description").val(genericModelObject.description);
 }
 
-function clearFields()
-{
+function clearFields() {
 	clearFieldsButId();
 	$("#id").val("");
 }
 
-function clearFieldsButId()
-{
+function clearFieldsButId() {
 	$("#description").val("");
 }
 
-function readGeolocation()
-{
+function showRecordsList(html) {
+	$("#list").html(recordsHtml);
+	$("#listDiv").show();
+}
+
+function hideRecordsList() {
+	$("#list").html("");
+	$("#listDiv").hide();
+}
+
+function readGeolocation() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(onGeolocationSuccess, onGeolocationError);
 	}
 }
 
-function onGeolocationSuccess(position)
-{
+function onGeolocationSuccess(position) {
 	$("#latitude").val(position.coords.latitude);
 	$("#longitude").val(position.coords.longitude);
 }
 
-function onGeolocationError(message)
-{
+function onGeolocationError(message) {
 	alert(message);
 }
