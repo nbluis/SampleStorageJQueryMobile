@@ -1,0 +1,45 @@
+<html>
+    <head> 
+	    <title>Sample jQuery remote request</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
+	    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+	    <script type="text/javascript" src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
+    </head> 
+
+    <body> 
+        <div data-role="page">
+	        <div data-role="header">
+		        <h1>Remote request sample</h1>
+	        </div>
+	
+	        <div data-role="content">	
+		        <form>
+		            <label for="operando">Operando:</label> 
+		            <input id="operando" type="number" />
+
+		            <label for="operador">Operador:</label> 
+		            <input id="operador" type="number" />
+
+	                <button id="calculate-button" type="button">Calculate</button>
+
+		            <label for="resultado">Resultado:</label> 
+		            <input id="resultado" type="number" />
+		        </form>
+	        </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        $($('#calculate-button').bind('click', function() {
+            $.ajax('calculate', {
+                data: {
+                    'operand' : $('#operando').val(),
+                    'operator' : $('#operador').val()
+                },
+                success: function(data) {
+                    $('#resultado').val(data);
+                }
+            })
+        }));
+    </script>
+</html>
