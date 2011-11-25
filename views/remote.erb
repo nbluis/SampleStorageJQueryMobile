@@ -3,6 +3,7 @@
 	    <title>Sample jQuery remote request</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
+	    <link rel="stylesheet" href="style.css" />
 	    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
 	    <script type="text/javascript" src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
     </head> 
@@ -21,25 +22,35 @@
 		            <label for="operador">Operador:</label> 
 		            <input id="operador" type="number" />
 
-	                <button id="calculate-button" type="button">Calculate</button>
-
 		            <label for="resultado">Resultado:</label> 
-		            <input id="resultado" type="number" />
+		            <input id="resultado" type="number" readonly="readonly"/>
 		        </form>
 	        </div>
         </div>
     </body>
     <script type="text/javascript">
-        $($('#calculate-button').bind('click', function() {
-            $.ajax('calculate', {
-                data: {
-                    'operand' : $('#operando').val(),
-                    'operator' : $('#operador').val()
-                },
-                success: function(data) {
-                    $('#resultado').val(data);
+        $(function() {
+            $('body').append('<div id="block-ui"></div>');      
+
+            $('input').bind('change', function() {
+                var operando = $('#operando').val();
+                var operador = $('#operador').val();
+
+                if (operando && operador) {
+                    $('#block-ui').show();
+
+                    $.ajax('calculate', {
+                        data: {
+                            'operand' : operando,
+                            'operator' : operador
+                        },
+                        success: function(data) {
+                            $('#resultado').val(data);
+                            $('#block-ui').hide();
+                        }
+                    })
                 }
-            })
-        }));
+            });
+        });
     </script>
 </html>
