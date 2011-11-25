@@ -174,19 +174,22 @@ function createModel() {
 Fill the screen components with the values of the TestModel object.
 */
 function fillFields(model) {
-	clearListFields();
+	clearFields();
 	
 	$("#id").val(model.id);
 	$("#description").val(model.description);
-	$("#checked").attr("checked", model.checked);
+	
+	if (model.checked) {
+		$("#checked").attr("checked", "checked");
+	}
 	
 	if (model.option != null) {
 		var itemId = getItemId("option", model.option);
-		$("#"+itemId).attr("checked", true);
+		$("#"+itemId).attr("checked", "checked");
 	}
 	for (i=0; i<model.flags.length; i++) {
 		var itemId = getItemId("flags", model.flags[i]);
-		$("#"+itemId).attr("checked", true);
+		$("#"+itemId).attr("checked", "checked");
 	}
 }
 
@@ -203,21 +206,14 @@ Clear the values of all components of the screen but the ID component.
 */
 function clearFieldsButId() {
 	$("#description").val("");
-	$("#checked").attr("checked", false);
-	clearListFields();
-}
-
-/**
-Clear the selected values of the list components of the screen.
-*/
-function clearListFields() {
+	$("#checked").removeAttr("checked");
 	for (i=0; i<uniqueListOptions.length; i++) {
 		var itemId = getItemId("option", i);
-		$("#"+itemId).attr("checked", false);
+		$("#"+itemId).removeAttr("checked");
 	}
 	for (i=0; i<multipleListOptions.length; i++) {
 		var itemId = getItemId("flags", i);
-		$("#"+itemId).attr("checked", false);
+		$("#"+itemId).removeAttr("checked");
 	}
 }
 
