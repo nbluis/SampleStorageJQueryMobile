@@ -1,10 +1,7 @@
-
-function GenericModel() {
-	this.id = 0;
-	this.description = "";
-}
-
-function GenericObjectModel() {
+/**
+Model class that contains some sample values.
+*/
+function TestModel() {
 	this.id = 0;
 	this.description = "";
 	this.checked = false;

@@ -1,17 +1,22 @@
 
-var genericObjectModelDao = new Dao("genericObjectModel");
+var testModelDao = new Dao("TestModel");
 
 var uniqueListOptions = ["option 1", "option 2", "option 3"];
 
 var multipleListOptions = ["flag 1", "flag 2", "flag 3"];
 
-$(function() {
+$(appendComponentsToScreen);
+
+/**
+Initiates the screen with the form components.
+*/
+function appendComponentsToScreen() {
 	appendNumericField("Id:", "id");
 	appendTextField("Description:", "description");
 	appendBooleanField("Checked", "checked");
 	appendUniqueList("Option:", "option", uniqueListOptions);
 	appendMultipleList("Flags:", "flags", multipleListOptions);
-});
+}
 
 function appendComponentToForm(component) {
 	$("#form").append(component);
@@ -74,7 +79,7 @@ function getItemId(listId, itemIndex) {
 Creates a new record using the values of the components.
 */
 function create() {
-	genericObjectModelDao.create(createModel());
+	testModelDao.create(createModel());
 	clearFields();
 }
 
@@ -84,7 +89,7 @@ Loads a record and fill the screen components.
 function retrieveById() {
 	var id = $("#id").val();
 
-	var retrievedRecord = genericObjectModelDao.retrieveById(id);
+	var retrievedRecord = testModelDao.retrieveById(id);
 	
 	if (retrievedRecord == null) {
 		clearFieldsButId();
@@ -99,7 +104,7 @@ Show the list with the saved records.
 */
 function list() {
 	var recordsHtml = "";
-	var records = genericObjectModelDao.retrieveAll();
+	var records = testModelDao.retrieveAll();
 	if (records.length > 0) {
 		for (i=0; i<records.length; i++) {
 			jsonString = JSON.stringify(records[i]);
@@ -115,14 +120,14 @@ function list() {
 Updates the record using the values of the components.
 */
 function updateById() {
-	genericObjectModelDao.update(createModel());
+	testModelDao.update(createModel());
 }
 
 /**
 Deletes the record.
 */
 function deleteById() {
-	genericObjectModelDao.del(createModel());
+	testModelDao.del(createModel());
 	clearFields();
 	hideRecordsList();
 }
@@ -131,17 +136,17 @@ function deleteById() {
 Deletes all records.
 */
 function deleteAll() {
-	genericObjectModelDao.deleteAll();
+	testModelDao.deleteAll();
 	clearFields();
 	hideRecordsList();
 }
 
 /**
-Create and returns a new instance of GenericObjectModel with the values of
+Create and returns a new instance of TestModel with the values of
 the screen components.
 */
 function createModel() {
-	var model = new GenericObjectModel();
+	var model = new TestModel();
 	model.id = $("#id").val();
 	model.description = $("#description").val();
 	model.checked = $("#checked").attr("checked");
@@ -166,21 +171,21 @@ function createModel() {
 }
 
 /**
-Fill the screen components with the values of the GenericObjectModel object.
+Fill the screen components with the values of the TestModel object.
 */
-function fillFields(genericModelObject) {
+function fillFields(model) {
 	clearListFields();
 	
-	$("#id").val(genericModelObject.id);
-	$("#description").val(genericModelObject.description);
-	$("#checked").attr("checked", genericModelObject.checked);
+	$("#id").val(model.id);
+	$("#description").val(model.description);
+	$("#checked").attr("checked", model.checked);
 	
-	if (genericModelObject.option != null) {
-		var itemId = getItemId("option", genericModelObject.option);
+	if (model.option != null) {
+		var itemId = getItemId("option", model.option);
 		$("#"+itemId).attr("checked", true);
 	}
-	for (i=0; i<genericModelObject.flags.length; i++) {
-		var itemId = getItemId("flags", genericModelObject.flags[i]);
+	for (i=0; i<model.flags.length; i++) {
+		var itemId = getItemId("flags", model.flags[i]);
 		$("#"+itemId).attr("checked", true);
 	}
 }
